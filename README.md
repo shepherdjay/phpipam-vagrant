@@ -1,5 +1,5 @@
 # phpipam-vagrant
-A vagrant environment for phpipam
+A vagrant development environment for phpipam
 
 ## To Use
 
