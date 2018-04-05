@@ -1,0 +1,54 @@
+- name: Set yum ssl verify to false for corporate usage
+  lineinfile:
+    path: /etc/yum.conf
+    regexp: "^sslverify="
+    line: "sslverify=false"
+    state: present
+
+- name: Set locale in /etc/environment
+  lineinfile:
+    path: /etc/environment
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^LC_ALL=', line: 'LC_ALL=en_US.utf-8' }
+    - { regexp: '^LANG=', line: 'LANG=en_US.utf-8' }
+
+- name: Install Apache
+  yum:
+    name: httpd
+
+- name: Install MySQL
+  yum:
+    name: mariadb-server
+
+- name: Install PHP Packages
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - php
+    - php-cli
+    - php-gd
+    - php-common
+    - php-ldap
+    - php-pdo
+    - php-pear
+    - php-snmp
+    - php-xml
+    - php-mysql
+    - php-mbstring
+
+- name: Set PHP Timezone
+  lineinfile:
+    path: /etc/php.ini
+    regexp: '^date.timezone ='
+    line: 'date.timezone = UTC'
+    state: present
+
+- name: Install git
+  yum:
+    name: git
+
+- name: Set Git to Ignore SSL
+  command: git config --global http.sslVerify "false"

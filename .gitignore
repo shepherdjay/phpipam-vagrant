@@ -1,4 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
-ansible/playbook.retry
+ansible/*.retry
 .vagrant/
